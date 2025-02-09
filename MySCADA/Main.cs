@@ -17,6 +17,16 @@ namespace MySCADA
         Image button_off = Image.FromFile(@"images\red_button_off.png");
         Image button_on = Image.FromFile(@"images\red_button_on.png");
 
+        // Add agitator images
+        Image[] agitatorFrames = new Image[]
+        {
+            Image.FromFile(@"images\agitator_1.gif"),
+            Image.FromFile(@"images\agitator_2.gif"),
+            Image.FromFile(@"images\agitator_3.gif"),
+            Image.FromFile(@"images\agitator_4.gif")
+        };
+        private int currentFrame = 0;
+
         public bool Start;
         public bool Stop;
         public bool Motor;
@@ -71,11 +81,19 @@ namespace MySCADA
             {
                 pbMotor.BackgroundImage = pump_green;
                 pbButton.BackgroundImage = button_on;
+
+                // Animate agitator when motor is running
+                currentFrame = (currentFrame + 1) % agitatorFrames.Length;
+                pbAgitator.BackgroundImage = agitatorFrames[currentFrame];
             }
             else
             {
                 pbMotor.BackgroundImage = pump_red;
                 pbButton.BackgroundImage = button_off;
+
+                // Reset agitator to first frame when stopped
+                currentFrame = 0;
+                pbAgitator.BackgroundImage = agitatorFrames[currentFrame];
             }
         }
 

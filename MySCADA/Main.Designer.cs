@@ -38,8 +38,10 @@
             this.Simulationtimer = new System.Windows.Forms.Timer(this.components);
             this.pbMotor = new System.Windows.Forms.PictureBox();
             this.pbButton = new System.Windows.Forms.PictureBox();
+            this.pbAgitator = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbMotor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAgitator)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -131,6 +133,15 @@
             this.pbButton.TabIndex = 6;
             this.pbButton.TabStop = false;
             // 
+            // pbAgitator
+            // 
+            this.pbAgitator.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbAgitator.Location = new System.Drawing.Point(700, 168); // Right next to pbButton
+            this.pbAgitator.Name = "pbAgitator";
+            this.pbAgitator.Size = new System.Drawing.Size(110, 90); // Same size as other PictureBoxes
+            this.pbAgitator.TabIndex = 7;
+            this.pbAgitator.TabStop = false;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -138,6 +149,7 @@
             this.BackColor = System.Drawing.SystemColors.Highlight;
             this.ClientSize = new System.Drawing.Size(963, 544);
             this.Controls.Add(this.pbButton);
+            this.Controls.Add(this.pbAgitator);
             this.Controls.Add(this.pbMotor);
             this.Controls.Add(this.lbMotor2);
             this.Controls.Add(this.lbMotor);
@@ -166,6 +178,7 @@
         private System.Windows.Forms.Timer Simulationtimer;
         private System.Windows.Forms.PictureBox pbMotor;
         private System.Windows.Forms.PictureBox pbButton;
+        private System.Windows.Forms.PictureBox pbAgitator;
     }
 }
 
