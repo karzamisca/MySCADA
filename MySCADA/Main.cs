@@ -23,9 +23,32 @@ namespace MySCADA
         public Main()
         {
             InitializeComponent();
+            pbButton.MouseDown += new MouseEventHandler(pbButton_MouseDown);
+            pbButton.MouseUp += new MouseEventHandler(pbButton_MouseUp);
         }
 
-       
+        private void pbButton_MouseDown(object sender, MouseEventArgs e)
+        {
+            // If motor is off, treat as START button
+            if (!Motor)
+            {
+                Start = true;
+            }
+            // If motor is on, treat as STOP button
+            else
+            {
+                Stop = true;
+            }
+        }
+
+        private void pbButton_MouseUp(object sender, MouseEventArgs e)
+        {
+            // Reset both Start and Stop flags
+            Start = false;
+            Stop = false;
+        }
+
+
 
         private void btSTART_MouseDown(object sender, MouseEventArgs e)
         {
