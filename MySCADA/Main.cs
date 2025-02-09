@@ -26,6 +26,7 @@ namespace MySCADA
             Image.FromFile(@"images\agitator_4.gif")
         };
         private int currentFrame = 0;
+        private int currentSpeed = 0;
 
         public bool Start;
         public bool Stop;
@@ -72,13 +73,19 @@ namespace MySCADA
 
         private void Monitortimer_Tick(object sender, EventArgs e)
         {
-          
             Console.WriteLine($"Start= {Start}, Stop = {Stop}, Motor = {Motor}");
             lbMotor.Text = Motor.ToString();
             lbMotor2.Text = (Motor) ? "Chạy" : "Dừng";
-            
-            if(Motor)
+
+            // Speed control logic
+            if (Motor)
             {
+                // Gradually increase speed when motor is running
+                if (currentSpeed < 1000)
+                {
+                    currentSpeed += 10;
+                }
+
                 pbMotor.BackgroundImage = pump_green;
                 pbButton.BackgroundImage = button_on;
 
@@ -88,6 +95,17 @@ namespace MySCADA
             }
             else
             {
+                // Gradually decrease speed when motor is stopped
+                if (currentSpeed > 0)
+                {
+                    currentSpeed -= 20;
+                    // Ensure we don't go below 0
+                    if (currentSpeed < 0)
+                    {
+                        currentSpeed = 0;
+                    }
+                }
+
                 pbMotor.BackgroundImage = pump_red;
                 pbButton.BackgroundImage = button_off;
 
@@ -95,6 +113,11 @@ namespace MySCADA
                 currentFrame = 0;
                 pbAgitator.BackgroundImage = agitatorFrames[currentFrame];
             }
+
+            // Update UI elements
+            currentSpeed = Math.Max(0, Math.Min(1000, currentSpeed));
+            lbSpeedometer.Text = $"Speed: {currentSpeed}";
+            speedProgressBar.Value = currentSpeed;
         }
 
         private void btStop_MouseDown(object sender, MouseEventArgs e)

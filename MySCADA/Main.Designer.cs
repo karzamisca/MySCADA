@@ -1,4 +1,6 @@
-﻿namespace MySCADA
+﻿using System.Windows.Forms;
+
+namespace MySCADA
 {
     partial class Main
     {
@@ -6,7 +8,8 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
+        private System.Windows.Forms.Label lbSpeedometer;
+        private System.Windows.Forms.ProgressBar speedProgressBar;
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -141,6 +144,29 @@
             this.pbAgitator.Size = new System.Drawing.Size(110, 90); // Same size as other PictureBoxes
             this.pbAgitator.TabIndex = 7;
             this.pbAgitator.TabStop = false;
+            // 
+            // Speedometer
+            // 
+            this.lbSpeedometer = new System.Windows.Forms.Label();
+            this.lbSpeedometer.AutoSize = true;
+            this.lbSpeedometer.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSpeedometer.Location = new System.Drawing.Point(405, 300);
+            this.lbSpeedometer.Name = "lbSpeedometer";
+            this.lbSpeedometer.Size = new System.Drawing.Size(150, 31);
+            this.lbSpeedometer.TabIndex = 8;
+            this.lbSpeedometer.Text = "Speed: 0";
+            this.Controls.Add(this.lbSpeedometer);
+            // 
+            // speedProgressBar
+            // 
+            this.speedProgressBar = new System.Windows.Forms.ProgressBar();
+            this.speedProgressBar.Location = new System.Drawing.Point(405, 350);
+            this.speedProgressBar.Name = "speedProgressBar";
+            this.speedProgressBar.Size = new System.Drawing.Size(300, 30);
+            this.speedProgressBar.TabIndex = 9;
+            this.speedProgressBar.Maximum = 1000;  // Set maximum to 1000 to match speed
+            this.speedProgressBar.Style = ProgressBarStyle.Continuous;
+            this.Controls.Add(this.speedProgressBar);
             // 
             // Main
             // 
