@@ -10,6 +10,19 @@ using System.Windows.Forms;
 
 namespace MySCADA
 {
+    public class VerticalProgressBar : ProgressBar
+    {
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.Style |= 0x04; // PBS_VERTICAL style
+                return cp;
+            }
+        }
+    }
+
     public partial class Main : Form
     {
         Image pump_green = Image.FromFile(@"images\pump_base_green.gif");

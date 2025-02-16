@@ -9,7 +9,7 @@ namespace MySCADA
         /// </summary>
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label lbSpeedometer;
-        private System.Windows.Forms.ProgressBar speedProgressBar;
+        private VerticalProgressBar speedProgressBar;
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -150,7 +150,7 @@ namespace MySCADA
             this.lbSpeedometer = new System.Windows.Forms.Label();
             this.lbSpeedometer.AutoSize = true;
             this.lbSpeedometer.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSpeedometer.Location = new System.Drawing.Point(405, 300);
+            this.lbSpeedometer.Location = new System.Drawing.Point(800, 120); // Moved above the progress bar
             this.lbSpeedometer.Name = "lbSpeedometer";
             this.lbSpeedometer.Size = new System.Drawing.Size(150, 31);
             this.lbSpeedometer.TabIndex = 8;
@@ -159,12 +159,12 @@ namespace MySCADA
             // 
             // speedProgressBar
             // 
-            this.speedProgressBar = new System.Windows.Forms.ProgressBar();
-            this.speedProgressBar.Location = new System.Drawing.Point(405, 350);
+            this.speedProgressBar = new VerticalProgressBar();
+            this.speedProgressBar.Location = new System.Drawing.Point(850, 168);
             this.speedProgressBar.Name = "speedProgressBar";
-            this.speedProgressBar.Size = new System.Drawing.Size(300, 30);
+            this.speedProgressBar.Size = new System.Drawing.Size(30, 300);
             this.speedProgressBar.TabIndex = 9;
-            this.speedProgressBar.Maximum = 1000;  // Set maximum to 1000 to match speed
+            this.speedProgressBar.Maximum = 1000;
             this.speedProgressBar.Style = ProgressBarStyle.Continuous;
             this.Controls.Add(this.speedProgressBar);
             // 
