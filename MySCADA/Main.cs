@@ -143,11 +143,9 @@ namespace MySCADA
         private void Monitortimer_Tick(object sender, EventArgs e)
         {
             Console.WriteLine($"Mode = {Mode}, Start= {Start}, Stop = {Stop}, Motor = {Motor}, Fail = {Fail}");
-
             // Update motor status displays
             lbMotor.Text = Motor.ToString();
             lbMotor2.Text = (Motor) ? "Chạy" : "Dừng";
-
             // Update fault status
             if (Fail)
             {
@@ -159,7 +157,6 @@ namespace MySCADA
                 lbFaultStatus.Text = "Status: Normal";
                 pbFault.Visible = false;
             }
-
             // Speed control logic
             if (Motor && !Fail)
             {
@@ -168,20 +165,16 @@ namespace MySCADA
                 {
                     currentRuntime.Start();
                 }
-
                 // Gradually increase speed when motor is running
                 if (currentSpeed < 1000)
                 {
                     currentSpeed += 10;
                 }
-
                 pbMotor.BackgroundImage = pump_green;
                 pbButton.BackgroundImage = button_on;
-
                 // Animate agitator when motor is running
                 currentFrame = (currentFrame + 1) % agitatorFrames.Length;
                 pbAgitator.BackgroundImage = agitatorFrames[currentFrame];
-
                 // Simulate random fault (approx. 0.1% chance per tick)
                 if (new Random().Next(1000) == 0)
                 {
@@ -196,8 +189,9 @@ namespace MySCADA
                     currentRuntime.Stop();
                     // Add current session to cumulative time
                     cumulativeRuntime += currentRuntime.Elapsed;
+                    // Reset the current runtime to 0
+                    currentRuntime.Reset();
                 }
-
                 // Gradually decrease speed when motor is stopped
                 if (currentSpeed > 0)
                 {
@@ -208,29 +202,23 @@ namespace MySCADA
                         currentSpeed = 0;
                     }
                 }
-
                 pbMotor.BackgroundImage = pump_red;
                 pbButton.BackgroundImage = button_off;
-
                 // Reset agitator to first frame when stopped
                 currentFrame = 0;
                 pbAgitator.BackgroundImage = agitatorFrames[currentFrame];
             }
-
             // Update UI elements
             currentSpeed = Math.Max(0, Math.Min(1000, currentSpeed));
             lbSpeedometer.Text = $"Speed: {currentSpeed}";
             speedProgressBar.Value = currentSpeed;
-
             // Update runtime displays
             TimeSpan currentSession = currentRuntime.Elapsed;
             lbCurrentRuntime.Text = string.Format("Current: {0:00}:{1:00}:{2:00}.{3:000}",
                 currentSession.Hours, currentSession.Minutes, currentSession.Seconds, currentSession.Milliseconds);
-
             TimeSpan total = cumulativeRuntime + (currentRuntime.IsRunning ? currentRuntime.Elapsed : TimeSpan.Zero);
             lbTotalRuntime.Text = string.Format("Total: {0:00}:{1:00}:{2:00}.{3:000}",
                 total.Hours, total.Minutes, total.Seconds, total.Milliseconds);
-
             // Update control states
             UpdateControlStates();
         }
