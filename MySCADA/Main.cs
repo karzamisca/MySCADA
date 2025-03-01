@@ -44,6 +44,7 @@ namespace MySCADA
         };
         private int currentFrame = 0;
         private int currentSpeed = 0;
+        private int speedLimit = 1000; // Default speed limit
 
         // Control flags
         public bool Start;
@@ -74,8 +75,30 @@ namespace MySCADA
             pbFault.Visible = false;
             lbFaultStatus.Text = "Status: Normal";
 
+            // Initialize the speed limit controls
+            numSpeedLimit.Value = speedLimit;
+            numSpeedLimit.ValueChanged += new EventHandler(numSpeedLimit_ValueChanged);
+
             // Initialize timers
             lastUpdateTime = DateTime.Now;
+        }
+
+        private void numSpeedLimit_ValueChanged(object sender, EventArgs e)
+        {
+            // Update the speed limit
+            speedLimit = (int)numSpeedLimit.Value;
+
+            // Update the progress bar's maximum value
+            speedProgressBar.Maximum = speedLimit;
+
+            // Update the speed display to show the current limit
+            lbSpeedLimit.Text = $"Speed Limit: {speedLimit}";
+
+            // If current speed exceeds the new limit, reduce it
+            if (currentSpeed > speedLimit)
+            {
+                currentSpeed = speedLimit;
+            }
         }
 
         private void cmbMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -90,6 +113,7 @@ namespace MySCADA
             btSTART.Enabled = Mode == "Manual" && !Fail;
             btStop.Enabled = Mode == "Manual" && !Fail;
             btReset.Enabled = Fail; // Reset is only enabled during fault condition
+            numSpeedLimit.Enabled = !Fail; // Disable speed limit control during fault
 
             // In Auto mode, disable start/stop buttons
             if (Mode == "Auto" && !Fail)
@@ -168,7 +192,7 @@ namespace MySCADA
                     currentRuntime.Start();
                 }
                 // Gradually increase speed when motor is running
-                if (currentSpeed < 1000)
+                if (currentSpeed < speedLimit)
                 {
                     currentSpeed += 10;
                 }
@@ -211,7 +235,7 @@ namespace MySCADA
                 pbAgitator.BackgroundImage = agitatorFrames[currentFrame];
             }
             // Update UI elements
-            currentSpeed = Math.Max(0, Math.Min(1000, currentSpeed));
+            currentSpeed = Math.Max(0, Math.Min(speedLimit, currentSpeed));
             lbSpeedometer.Text = $"Speed: {currentSpeed}";
             speedProgressBar.Value = currentSpeed;
             // Update runtime displays

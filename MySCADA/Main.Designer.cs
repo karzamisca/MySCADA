@@ -60,10 +60,15 @@ namespace MySCADA
             this.lbCurrentRuntime = new System.Windows.Forms.Label();
             this.lbTotalRuntime = new System.Windows.Forms.Label();
 
+            // Speed limit controls
+            this.lbSpeedLimit = new System.Windows.Forms.Label();
+            this.numSpeedLimit = new System.Windows.Forms.NumericUpDown();
+
             ((System.ComponentModel.ISupportInitialize)(this.pbMotor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAgitator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFault)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSpeedLimit)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -260,6 +265,30 @@ namespace MySCADA
             this.lbTotalRuntime.Size = new System.Drawing.Size(196, 25);
             this.lbTotalRuntime.TabIndex = 16;
             this.lbTotalRuntime.Text = "Total: 00:00:00.000";
+            //
+            // lbSpeedLimit
+            //
+            this.lbSpeedLimit = new System.Windows.Forms.Label();
+            this.lbSpeedLimit.AutoSize = true;
+            this.lbSpeedLimit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSpeedLimit.ForeColor = System.Drawing.Color.White;
+            this.lbSpeedLimit.Location = new System.Drawing.Point(600, 330);
+            this.lbSpeedLimit.Name = "lbSpeedLimit";
+            this.lbSpeedLimit.Size = new System.Drawing.Size(180, 25);
+            this.lbSpeedLimit.TabIndex = 17;
+            this.lbSpeedLimit.Text = "Speed Limit: 1000";
+            //
+            // numSpeedLimit
+            //
+            this.numSpeedLimit = new System.Windows.Forms.NumericUpDown();
+            this.numSpeedLimit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numSpeedLimit.Location = new System.Drawing.Point(600, 370);
+            this.numSpeedLimit.Maximum = 1000;
+            this.numSpeedLimit.Minimum = 100;
+            this.numSpeedLimit.Name = "numSpeedLimit";
+            this.numSpeedLimit.Size = new System.Drawing.Size(120, 30);
+            this.numSpeedLimit.TabIndex = 18;
+            this.numSpeedLimit.Value = 1000;
             // 
             // Main
             // 
@@ -284,6 +313,9 @@ namespace MySCADA
             this.Controls.Add(this.btStop);
             this.Controls.Add(this.btSTART);
             this.Controls.Add(this.label1);
+            // Add new controls to the form
+            this.Controls.Add(this.numSpeedLimit);
+            this.Controls.Add(this.lbSpeedLimit);
             this.ForeColor = System.Drawing.Color.Red;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Main";
@@ -308,5 +340,7 @@ namespace MySCADA
         private System.Windows.Forms.PictureBox pbMotor;
         private System.Windows.Forms.PictureBox pbButton;
         private System.Windows.Forms.PictureBox pbAgitator;
+        private System.Windows.Forms.Label lbSpeedLimit;
+        private System.Windows.Forms.NumericUpDown numSpeedLimit;
     }
 }
