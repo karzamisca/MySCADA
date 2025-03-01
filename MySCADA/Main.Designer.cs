@@ -10,6 +10,14 @@ namespace MySCADA
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label lbSpeedometer;
         private VerticalProgressBar speedProgressBar;
+        private System.Windows.Forms.Label lbCurrentRuntime;
+        private System.Windows.Forms.Label lbTotalRuntime;
+        private System.Windows.Forms.ComboBox cmbMode;
+        private System.Windows.Forms.Label lbMode;
+        private System.Windows.Forms.PictureBox pbFault;
+        private System.Windows.Forms.Label lbFaultStatus;
+        private System.Windows.Forms.Button btReset;
+
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -42,9 +50,20 @@ namespace MySCADA
             this.pbMotor = new System.Windows.Forms.PictureBox();
             this.pbButton = new System.Windows.Forms.PictureBox();
             this.pbAgitator = new System.Windows.Forms.PictureBox();
+
+            // New controls
+            this.cmbMode = new System.Windows.Forms.ComboBox();
+            this.lbMode = new System.Windows.Forms.Label();
+            this.pbFault = new System.Windows.Forms.PictureBox();
+            this.lbFaultStatus = new System.Windows.Forms.Label();
+            this.btReset = new System.Windows.Forms.Button();
+            this.lbCurrentRuntime = new System.Windows.Forms.Label();
+            this.lbTotalRuntime = new System.Windows.Forms.Label();
+
             ((System.ComponentModel.ISupportInitialize)(this.pbMotor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAgitator)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFault)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -52,7 +71,7 @@ namespace MySCADA
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label1.Location = new System.Drawing.Point(273, 95);
+            this.label1.Location = new System.Drawing.Point(273, 25);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(352, 31);
@@ -139,9 +158,9 @@ namespace MySCADA
             // pbAgitator
             // 
             this.pbAgitator.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pbAgitator.Location = new System.Drawing.Point(700, 168); // Right next to pbButton
+            this.pbAgitator.Location = new System.Drawing.Point(700, 168);
             this.pbAgitator.Name = "pbAgitator";
-            this.pbAgitator.Size = new System.Drawing.Size(110, 90); // Same size as other PictureBoxes
+            this.pbAgitator.Size = new System.Drawing.Size(110, 90);
             this.pbAgitator.TabIndex = 7;
             this.pbAgitator.TabStop = false;
             // 
@@ -150,12 +169,11 @@ namespace MySCADA
             this.lbSpeedometer = new System.Windows.Forms.Label();
             this.lbSpeedometer.AutoSize = true;
             this.lbSpeedometer.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSpeedometer.Location = new System.Drawing.Point(800, 120); // Moved above the progress bar
+            this.lbSpeedometer.Location = new System.Drawing.Point(800, 120);
             this.lbSpeedometer.Name = "lbSpeedometer";
             this.lbSpeedometer.Size = new System.Drawing.Size(150, 31);
             this.lbSpeedometer.TabIndex = 8;
             this.lbSpeedometer.Text = "Speed: 0";
-            this.Controls.Add(this.lbSpeedometer);
             // 
             // speedProgressBar
             // 
@@ -166,7 +184,82 @@ namespace MySCADA
             this.speedProgressBar.TabIndex = 9;
             this.speedProgressBar.Maximum = 1000;
             this.speedProgressBar.Style = ProgressBarStyle.Continuous;
-            this.Controls.Add(this.speedProgressBar);
+            // 
+            // lbMode
+            // 
+            this.lbMode.AutoSize = true;
+            this.lbMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbMode.ForeColor = System.Drawing.Color.White;
+            this.lbMode.Location = new System.Drawing.Point(87, 90);
+            this.lbMode.Name = "lbMode";
+            this.lbMode.Size = new System.Drawing.Size(67, 25);
+            this.lbMode.TabIndex = 10;
+            this.lbMode.Text = "Mode:";
+            // 
+            // cmbMode
+            // 
+            this.cmbMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbMode.FormattingEnabled = true;
+            this.cmbMode.Location = new System.Drawing.Point(160, 90);
+            this.cmbMode.Name = "cmbMode";
+            this.cmbMode.Size = new System.Drawing.Size(121, 28);
+            this.cmbMode.TabIndex = 11;
+            // 
+            // pbFault
+            // 
+            this.pbFault.BackgroundImage = this.warning_icon;
+            this.pbFault.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pbFault.Location = new System.Drawing.Point(87, 330);
+            this.pbFault.Name = "pbFault";
+            this.pbFault.Size = new System.Drawing.Size(50, 50);
+            this.pbFault.TabIndex = 12;
+            this.pbFault.TabStop = false;
+            // 
+            // lbFaultStatus
+            // 
+            this.lbFaultStatus.AutoSize = true;
+            this.lbFaultStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbFaultStatus.ForeColor = System.Drawing.Color.White;
+            this.lbFaultStatus.Location = new System.Drawing.Point(147, 342);
+            this.lbFaultStatus.Name = "lbFaultStatus";
+            this.lbFaultStatus.Size = new System.Drawing.Size(159, 25);
+            this.lbFaultStatus.TabIndex = 13;
+            this.lbFaultStatus.Text = "Status: Normal";
+            // 
+            // btReset
+            // 
+            this.btReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReset.Location = new System.Drawing.Point(87, 390);
+            this.btReset.Name = "btReset";
+            this.btReset.Size = new System.Drawing.Size(119, 48);
+            this.btReset.TabIndex = 14;
+            this.btReset.TabStop = false;
+            this.btReset.Text = "RESET";
+            this.btReset.UseVisualStyleBackColor = true;
+            this.btReset.Click += new System.EventHandler(this.btReset_Click);
+            // 
+            // lbCurrentRuntime
+            // 
+            this.lbCurrentRuntime.AutoSize = true;
+            this.lbCurrentRuntime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbCurrentRuntime.ForeColor = System.Drawing.Color.White;
+            this.lbCurrentRuntime.Location = new System.Drawing.Point(400, 330);
+            this.lbCurrentRuntime.Name = "lbCurrentRuntime";
+            this.lbCurrentRuntime.Size = new System.Drawing.Size(226, 25);
+            this.lbCurrentRuntime.TabIndex = 15;
+            this.lbCurrentRuntime.Text = "Current: 00:00:00.000";
+            // 
+            // lbTotalRuntime
+            // 
+            this.lbTotalRuntime.AutoSize = true;
+            this.lbTotalRuntime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTotalRuntime.ForeColor = System.Drawing.Color.White;
+            this.lbTotalRuntime.Location = new System.Drawing.Point(400, 370);
+            this.lbTotalRuntime.Name = "lbTotalRuntime";
+            this.lbTotalRuntime.Size = new System.Drawing.Size(196, 25);
+            this.lbTotalRuntime.TabIndex = 16;
+            this.lbTotalRuntime.Text = "Total: 00:00:00.000";
             // 
             // Main
             // 
@@ -174,6 +267,15 @@ namespace MySCADA
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Highlight;
             this.ClientSize = new System.Drawing.Size(963, 544);
+            this.Controls.Add(this.lbTotalRuntime);
+            this.Controls.Add(this.lbCurrentRuntime);
+            this.Controls.Add(this.btReset);
+            this.Controls.Add(this.lbFaultStatus);
+            this.Controls.Add(this.pbFault);
+            this.Controls.Add(this.cmbMode);
+            this.Controls.Add(this.lbMode);
+            this.Controls.Add(this.speedProgressBar);
+            this.Controls.Add(this.lbSpeedometer);
             this.Controls.Add(this.pbButton);
             this.Controls.Add(this.pbAgitator);
             this.Controls.Add(this.pbMotor);
@@ -188,9 +290,10 @@ namespace MySCADA
             this.Text = "Main Page";
             ((System.ComponentModel.ISupportInitialize)(this.pbMotor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAgitator)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFault)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -207,4 +310,3 @@ namespace MySCADA
         private System.Windows.Forms.PictureBox pbAgitator;
     }
 }
-
