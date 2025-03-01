@@ -31,6 +31,8 @@ namespace MySCADA
         Image button_off = Image.FromFile(@"images\red_button_off.png");
         Image button_on = Image.FromFile(@"images\red_button_on.png");
         Image warning_icon = Image.FromFile(@"images\warning.png");
+        Image fanRotor = Image.FromFile(@"images\Fan-rotor_grey.png");
+        private float fanAngle = 0;
 
         // Add agitator images
         Image[] agitatorFrames = new Image[]
@@ -219,8 +221,12 @@ namespace MySCADA
             TimeSpan total = cumulativeRuntime + (currentRuntime.IsRunning ? currentRuntime.Elapsed : TimeSpan.Zero);
             lbTotalRuntime.Text = string.Format("Total: {0:00}:{1:00}:{2:00}.{3:000}",
                 total.Hours, total.Minutes, total.Seconds, total.Milliseconds);
+            // Rotate fan according to speed
+            fanAngle = (fanAngle + currentSpeed / 10) % 360;
             // Update control states
             UpdateControlStates();
+            // Draw the rotated fan image on the form
+            DrawRotatedFan();
         }
 
         private void btStop_MouseDown(object sender, MouseEventArgs e)
@@ -234,6 +240,39 @@ namespace MySCADA
         private void btStop_MouseUp(object sender, MouseEventArgs e)
         {
             Stop = false;
+        }
+
+        private void DrawRotatedFan()
+        {
+            // Create a new image for the fan if one doesn't exist
+            if (pbMotor.Image == null)
+            {
+                pbMotor.Image = new Bitmap(pbMotor.Width, pbMotor.Height);
+            }
+
+            using (Graphics g = Graphics.FromImage(pbMotor.Image))
+            {
+                // Clear the previous drawing
+                g.Clear(Color.Transparent);
+
+                // Calculate the center position
+                int centerX = pbMotor.Width / 2;
+                int centerY = pbMotor.Height / 2;
+
+                // Set up transformation for proper clockwise rotation (left-to-right)
+                // 1. Move to the center of the control
+                g.TranslateTransform(centerX, centerY);
+                // 2. Rotate by the current angle (clockwise)
+                g.RotateTransform(fanAngle);
+                // 3. Move back so the fan image is centered at the rotation point
+                g.TranslateTransform(-fanRotor.Width / 2, -fanRotor.Height / 2);
+
+                // Draw the fan rotor
+                g.DrawImage(fanRotor, 0, 0);
+            }
+
+            // Refresh the picture box to show the changes
+            pbMotor.Refresh();
         }
 
         private void Simulationtimer_Tick(object sender, EventArgs e)
