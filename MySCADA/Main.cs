@@ -104,7 +104,7 @@ namespace MySCADA
             lastUpdateTime = DateTime.Now;
 
             // Set warning thresholds
-            speedMax = (int)(speedLimit * 0.9); // 90% of max speed as warning
+            speedMax = 1000; // Fixed threshold at 1000
             speedMin = (int)(speedLimit * 0.1); // 10% of max speed as warning
         }
 
@@ -120,7 +120,7 @@ namespace MySCADA
             lbSpeedLimit.Text = $"Speed Limit: {speedLimit}";
 
             // Update warning thresholds
-            speedMax = (int)(speedLimit * 0.9); // 90% of max speed as warning
+            speedMax = speedMax = 1000; // 90% of max speed as warning
             speedMin = (int)(speedLimit * 0.1); // 10% of min speed as warning
 
             // If target speed exceeds the new limit, reduce it
@@ -195,8 +195,14 @@ namespace MySCADA
             Start = false;
         }
 
-        // Second-order motor speed calculation
-        private float SpeedMotor2(double t)
+        // Second-order motor speed calculation: 
+        //Speed(t) = K * (1 - e^(-ζωₙt) * (cos(ωdt) + (ζ/√(1-ζ²)) * sin(ωdt)))
+        //K = 1.0 (gain coefficient)
+        //ζ(zeta) = 0.7 (damping ratio)
+        //ωₙ(omega_n) = 0.3 (natural frequency)
+        //ωd(omega_d) = ωₙ* √(1-ζ²) (damped natural frequency)
+        //t = time in seconds
+        private float SpeedMotor(double t)
         {
             float K = 1.0f;      // Gain
             float omega_n = 0.3f; // Natural frequency
@@ -215,7 +221,7 @@ namespace MySCADA
         private void TimerSpeedMotor_Tick(object sender, EventArgs e)
         {
             motorTime += 0.05; // Increase by 0.05s
-            currentSpeed = targetSpeed * SpeedMotor2(motorTime);
+            currentSpeed = targetSpeed * SpeedMotor(motorTime);
             speedHistory.Add(currentSpeed);
 
             // Handle startup phase counter
