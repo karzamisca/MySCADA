@@ -48,7 +48,7 @@ namespace MySCADA
         private float currentSpeed = 0;
         private int speedLimit = 1000; // Default speed limit
 
-        // Speed warning limits from BTL01V2
+        // Speed warning limits
         private int speedMax = 900;
         private int speedMin = 100;
 
@@ -57,7 +57,7 @@ namespace MySCADA
         private int startupCounter = 0;
         private int startupTimeAllowed = 50; // ~2.5 seconds at 50ms intervals
 
-        // Motor speed calculation from BTL01V2
+        // Motor speed calculation
         private double motorTime = 0;
         private List<float> speedHistory = new List<float>();
         private Timer timerSpeedMotor = new Timer();
@@ -68,7 +68,7 @@ namespace MySCADA
         public bool Motor;
         public bool Fail; // Fault flag
         public bool Reset; // Reset flag
-        public bool Trip;  // Trip flag from BTL01V2
+        public bool Trip;  // Trip flag
         public string Mode = "Manual"; // Default mode
 
         // Timer for motor runtime tracking
@@ -96,7 +96,7 @@ namespace MySCADA
             numSpeedLimit.Value = speedLimit;
             numSpeedLimit.ValueChanged += new EventHandler(numSpeedLimit_ValueChanged);
 
-            // Initialize motor speed timer from BTL01V2
+            // Initialize motor speed timer
             timerSpeedMotor.Interval = 50;
             timerSpeedMotor.Tick += TimerSpeedMotor_Tick;
 
@@ -195,7 +195,7 @@ namespace MySCADA
             Start = false;
         }
 
-        // Second-order motor speed calculation from BTL01V2
+        // Second-order motor speed calculation
         private float SpeedMotor2(double t)
         {
             float K = 1.0f;      // Gain
@@ -320,7 +320,7 @@ namespace MySCADA
                 currentFrame = (currentFrame + 1) % agitatorFrames.Length;
                 pbAgitator.BackgroundImage = agitatorFrames[currentFrame];
 
-                // Check if speed exceeds limits (as in BTL01V2)
+                // Check if speed exceeds limits
                 // Only check after startup phase is complete and if the motor is running at 
                 // a significant speed (avoid checking when stopping)
                 if (!motorStartupPhase && currentSpeed > 0 &&
@@ -416,7 +416,7 @@ namespace MySCADA
             Stop = false;
         }
 
-        // Rotated fan image drawing from BTL01V2, but improved
+        // Rotated fan image drawing
         private void DrawRotatedFan()
         {
             // Create a new bitmap if needed
